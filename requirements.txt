@@ -1,2 +1,5 @@
 wheel
 pytube
+librosa
+numpy<1.21
+soundfile
