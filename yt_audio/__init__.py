@@ -10,7 +10,7 @@ from yt_audio.process import process_audio
 warnings.simplefilter("ignore")
 
 
-def ingest(data_file: str, sample_rate: int, output_dir: str):
+def ingest(data_file: str, sample_rate: int, output_dir: str, reset: bool = False):
     """
     Data ingestion includes the following steps
     1. Each id is converted to YouTube URL
@@ -23,7 +23,7 @@ def ingest(data_file: str, sample_rate: int, output_dir: str):
 
     num_examples = len(dataset["id"])
 
-    if "processed" not in dataset:
+    if "processed" not in dataset or reset:
         dataset["processed"] = [False] * num_examples
         dataset["file_path"] = [""] * num_examples
 
@@ -47,7 +47,7 @@ def ingest(data_file: str, sample_rate: int, output_dir: str):
         if file_path is not None:
             chunk_file_path = process_audio(file_path, processed_audio_dir, _label,
                                             sample_rate, _start, _end)
-            print(f"Created file {chunk_file_path}")
+            print(f"{index}/{num_examples} Created file {chunk_file_path}")
             dataset["file_path"][index] = chunk_file_path
         else:
             print(f"Skipping id {_id} - could not be downloaded from YouTube")
