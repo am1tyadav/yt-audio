@@ -20,6 +20,7 @@ def process_audio(file_path: str, output_dir: str, label: str, target_sr: int,
     if sr != target_sr:
         audio_chunk = librosa.resample(audio_chunk, orig_sr=sr, target_sr=target_sr)
 
-    new_file_path = get_unique_file_name_in(target_dir, extension="wav")
+    new_file_name = get_unique_file_name_in(target_dir, extension="wav")
+    new_file_path = os.path.join(target_dir, new_file_name)
     soundfile.write(new_file_path, audio_chunk, samplerate=target_sr)
     return new_file_path
