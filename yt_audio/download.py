@@ -19,12 +19,13 @@ def _get_best_stream_index(streams, required_mime_type="audio/mp4"):
     return _index
 
 
-def download_audio(url: str, output_dir: str) -> str:
+def download_audio(url: str, output_dir: str) -> (str, bool):
     """
     Downloads audio from YouTube url and exports to output_dir
     Returns the final output path is successfully downloaded
     """
     output_path = None
+    stop_process = False
 
     try:
         streams = YouTube(url=url).streams.filter(only_audio=True, file_extension="mp4")
@@ -41,4 +42,7 @@ def download_audio(url: str, output_dir: str) -> str:
         print("Something went wrong")
         output_path = None
 
-    return output_path
+        if str(e) == "HTTP Error 429: Too Many Requests":
+            stop_process = True
+
+    return output_path, stop_process

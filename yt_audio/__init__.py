@@ -29,7 +29,7 @@ def ingest(data_file: str, sample_rate: int, output_dir: str):
         _start = dataset["start"][index]
         _end = dataset["end"][index]
 
-        file_path = download_audio(_url, raw_audio_dir)
+        file_path, stop_process = download_audio(_url, raw_audio_dir)
 
         if file_path is not None:
             chunk_file_path = process_audio(file_path, processed_audio_dir, _label,
@@ -37,3 +37,7 @@ def ingest(data_file: str, sample_rate: int, output_dir: str):
             print(f"Created file {chunk_file_path}")
         else:
             print(f"Skipping id {_id} - could not be downloaded from YouTube")
+        
+        if stop_process:
+            print("Stopping process now")
+            break
