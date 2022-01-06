@@ -3,7 +3,7 @@ import uuid
 
 
 def yid_to_url(yid: str) -> str:
-    return f"https://www.youtube.com/watch?v=yid"
+    return f"https://www.youtube.com/watch?v={yid}"
 
 
 def get_unique_file_name_in(output_dir: str, extension: str = "wav"):
